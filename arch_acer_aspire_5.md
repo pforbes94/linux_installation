@@ -11,7 +11,7 @@ Enable booting off a live USB:
 
 Make the NVMe SSD visible during installation:
 1. In order for the NVMe drive to be correctly mounted on `/dev`, you will need to change the SATA Mode to AHCI. Otherwise this
-won't show up when you run `fdisk -l`, `lsblk`, etc.
+ won't show up when you run `fdisk -l`, `lsblk`, etc.
 
 ## Installation
 
@@ -20,37 +20,37 @@ won't show up when you run `fdisk -l`, `lsblk`, etc.
 I have not figured out how to correctly configure network settings with the NetworkManager service. I'm working on this since
 it should be considerably easier than the following steps, but this will allow you to use the internet on just a wireless connection in the meantime:
 1. Identify the wireless port:
-```
-ip link
-```
-This has always been __wlan0__ during my previous installs, but be careful to check this. In addition, the port should
-be listed as DOWN before you start the `netctl` service or you will fail to connect. `netctl start` will bring up the port
-itself. If this is not already listed as down, you can bring it down with:
-```
-ip link set <PORT> down
-```
+ ```
+ ip link
+ ```
+ This has always been __wlan0__ during my previous installs, but be careful to check this. In addition, the port should
+ be listed as DOWN before you start the `netctl` service or you will fail to connect. `netctl start` will bring up the port
+ itself. If this is not already listed as down, you can bring it down with:
+ ```
+ ip link set <PORT> down
+ ```
 1. Enter configuration for the wireless network:
-```
-cp /etc/netctl/examples/wireless-wpa /etc/netctl/<SSID>
-```
-Where <SSID> is the appropriate SSID. Edit `/etc/netctl/<SSID>`, inputting access point info and the port you identified earlier.
+ ```
+ cp /etc/netctl/examples/wireless-wpa /etc/netctl/<SSID>
+ ```
+ Where \<SSID\> is the appropriate SSID. Edit `/etc/netctl/<SSID>`, inputting access point info and the port you identified earlier.
 1. Start the netctl service for this particular access point:
-```
-netctl start <SSID>
-```
-1. Obtain an IP for the wireless port you identified earlier:
-```
-dhcpcd <PORT>
-```
+ ```
+ netctl start <SSID>
+ ```
+1. Obtain an IP address for the wireless port you identified earlier:
+ ```
+ dhcpcd <PORT>
+ ```
 1. Ping some arbitrary site to ensure connectivity:
-```
-ping archlinux.org
-```
+ ```
+ ping archlinux.org
+ ```
 
 After booting, you'll need access to the same services you used above in the event that you need to reconfigure the network
 settings (you almost certainly will). Make sure to run the following sometime after `arch-chroot`ing to the installation:
 ```
-pacman -S netctl dhcpcd wpa\_supplicant
+pacman -S netctl dhcpcd wpa_supplicant
 ```
 
 ### UEFI Setup
